@@ -121,7 +121,7 @@ $users = [
                 </tbody>
             <?php }; ?>
             </table>
-            <div>end of data</div>
+            <div><?php if ($users) echo "end of data" ?></div>
         </div>
     </div>
 
