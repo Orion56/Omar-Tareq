@@ -27,16 +27,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['customerName'] && $_POST['ci
             if (!empty($_POST["productName{$i}"]) && !empty($_POST["productPrice{$i}"]) && !empty($_POST["qty{$i}"])) {
                 $subTotal = $_POST["productPrice{$i}"] * $_POST["qty{$i}"];
                 $products[] = [$_POST["productName{$i}"], $_POST["productPrice{$i}"], $_POST["qty{$i}"], $subTotal];
+                $_SESSION['receipt'] = true;
             } else $products[] = ['', '', '', ''];
         };
-        $_SESSION['products'] = $products;
         if (!empty($products[0])) {
-            $_SESSION['receipt'] = true;
+            $_SESSION['products'] = $products;
             $total = 0;
             foreach ($products as $i => $product) {
                 $total += (int)end($product);
             };
-            switch ($total) {
+            #remember to switch on (TRUE) when using switch cases with comparison conditions !!
+            switch (true) {
                 case $total <= 1000:
                     $discount = 0;
                     break;
@@ -56,8 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['customerName'] && $_POST['ci
         }
     }
     //header('location:index.php');
-
-    print_r($_SESSION);
+    //print_r($_SESSION);
 };
 
 ?>
@@ -108,13 +108,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['customerName'] && $_POST['ci
                         </div>
                     </div>
                     <div class=" row col-6 align-items-center text-center">
-                        <h3>Welcome<br> Awesome Market..</h3>
+                        <h3>Welcome to<br> Awesome Market..</h3>
                         <div class="mb-3 row justify-content-evenly">
                             <button type="submit" class="btn btn-primary col-6">Proceed</button>
                         </div>
                     </div>
                     <div class="row">
-                        <?php if ($_SESSION['noOfProducts']) {
+                        <?php if (isset($_SESSION['noOfProducts'])) {
                             for ($i = 1, $j = 0; $i <= $_SESSION['noOfProducts']; $i++, $j++) {
                                 echo " 
                         <div class='wrapper col-4'>                    
@@ -133,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['customerName'] && $_POST['ci
                         ?>
                     </div>
 
-                    <?php if ($_SESSION['receipt']) { ?>
+                    <?php if (isset($_SESSION['receipt']) && $_SESSION['receipt']) { ?>
                         <div class="row justify-content-center">
                             <table class="table table-striped table-inverse table-responsive">
                                 <thead class="thead-inverse">
