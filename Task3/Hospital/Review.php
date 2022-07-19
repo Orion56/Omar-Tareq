@@ -17,7 +17,6 @@ $reviews = [
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     foreach ($questionSet1 as $question => $id) {
         $userReview[$question] = $_POST[$id];
-        print_r($userReview);
     }
     $_SESSION['userReview'] = $userReview;
     $_SESSION['reviews'] = $reviews;
