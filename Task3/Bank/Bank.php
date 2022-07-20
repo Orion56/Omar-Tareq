@@ -70,7 +70,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST)) {
                     </div>
                 </div>
             </form>
-            <?= "You shall pay: " . $monthlyInstallment . " per month" ?>
+            <div class="alert alert-success text-center">
+                <?= "Interest Rate: " . $i * 100 . " % per year<br>" ?>
+                <?= "You shall pay: " . round($monthlyInstallment, 2) . " per month" ?>
+            </div>
         </div>
     </div>
 
