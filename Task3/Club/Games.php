@@ -16,8 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST)) {
     // }
     // $_SESSION['allFamily'][0]['name0'] = $mainMember;
 
-    print_r($_POST);
-    //header('location:Result.php');
+    //print_r($_POST);
+    header('location:Result.php');
 };
 ?>
 

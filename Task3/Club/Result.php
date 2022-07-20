@@ -1,9 +1,10 @@
 <?php session_start();
 
-$mainSubscribtionFee=1000;
-$familySubscribtionFee=2500;
-$totalFamilySubscribtion=($_SESSION['familyCount']-1) * $familySubscribtionFee; 
-$totalSubscribtion= $mainSubscribtionFee +$totalFamilySubscribtion;
+$mainSubscribtionFee = 10000;
+$familySubscribtionFee = 2500;
+$totalFamilySubscribtion = ($_SESSION['familyCount'] - 1) * $familySubscribtionFee;
+$gamesFees = ;
+$totalSubscribtion = $mainSubscribtionFee + $totalFamilySubscribtion + $gamesFees;
 
 
 ?>
@@ -28,42 +29,31 @@ $totalSubscribtion= $mainSubscribtionFee +$totalFamilySubscribtion;
 
             <h2 class="text-center">Total Subscribtion Fees</h2>
             <table class="table table-striped table-inverse table-responsive">
-            <thead class="thead-inverse">
-                <tr>
-                    <th>Item</th>
-                    <th class="text-center">Fees</th>
-                </tr>
-            </thead>
-            <tbody>
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>Item</th>
+                        <th class="text-center">Fees</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <div>
+                        <?php
+                        echo "Total fees: " . $totalSubscribtion;
+                        ?> </div>
+                </tbody>
+            </table>
+            <div class="text-center alert alert-success fw-bold">
                 <?php
-                foreach ($userReview as $question => $score) {
-                    echo "<tr><td scope='row'>{$question}</td>";
-                    foreach ($reviews as $review => $value) {
-                        if ($value == $score)
-                            echo "<td class='text-center'>{$review}</td>";
-                    };
-                    echo "</tr>";
-                }
+                echo "Welcome to your Club";
                 ?>
-            </tbody>
-            <tfoot>
-                <td colspan="2">
-                    <?php echo "<div class= 'alert alert-danger text-center'>Your Overall rating: {$overAllReview}</div>"; ?>
-                </tfoot>
-            </td>
-        </table>
-        <div class="text-center alert alert-success fw-bold">
-            <?php
-            echo $message;
-            ?>
 
-</div>
-</div>
+            </div>
+        </div>
     </div>
 
     <!-- Bootstrap JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
 </body>
 
