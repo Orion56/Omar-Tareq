@@ -3,8 +3,12 @@
 $mainSubscribtionFee = 10000;
 $familySubscribtionFee = 2500;
 $totalFamilySubscribtion = ($_SESSION['familyCount'] - 1) * $familySubscribtionFee;
-$gamesFees = ;
-$totalSubscribtion = $mainSubscribtionFee + $totalFamilySubscribtion + $gamesFees;
+$totalGamesSubscribtion = 0;
+foreach ($_SESSION['gameFee'] as $game => $fee) {
+    $totalGameFees = count($_SESSION['memberData']["$game"]) * $fee;
+    $totalGamesSubscribtion += $totalGameFees;
+}
+$totalSubscribtion = $mainSubscribtionFee + $totalFamilySubscribtion + $totalGamesSubscribtion;
 
 
 ?>
@@ -36,15 +40,15 @@ $totalSubscribtion = $mainSubscribtionFee + $totalFamilySubscribtion + $gamesFee
                     </tr>
                 </thead>
                 <tbody>
-                    <div>
-                        <?php
-                        echo "Total fees: " . $totalSubscribtion;
-                        ?> </div>
+
                 </tbody>
             </table>
             <div class="text-center alert alert-success fw-bold">
                 <?php
-                echo "Welcome to your Club";
+
+                echo "Total fees: " . $totalSubscribtion;
+
+                echo "<br>Welcome to your Club";
                 ?>
 
             </div>

@@ -1,8 +1,8 @@
 <?php session_start();
 
 
-$gamesFees = [
-    'Footbal' => 300,
+$gameFee = [
+    'Football' => 300,
     'Swimming' => 250,
     'Volly' => 150,
     'Others' => 100
@@ -11,6 +11,7 @@ $gamesFees = [
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST)) {
 
     $_SESSION['memberData'] = $_POST;
+    $_SESSION['gameFee']=$gameFee;
     // for ($i = 0; $i <= $_SESSION['familyCount']; $i++) {
     //     $_SESSION['allFamily'] = [["name{$i}" => '', 'games' => []]];
     // }
@@ -48,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST)) {
                                 <label for="" class="form-label mt-3">Member <?= $i ?> Name</label>
                                 <input type="text" class="form-control" name="<?= "member$i" ?>" value="<?php echo $value = $i == 1 ?  $_SESSION['mainMember'] : $_POST["member$i"] ?? ''; ?>" id="" placeholder="name of family member">
                             </div>
-                            <?php foreach ($gamesFees as $game => $fee) {
+                            <?php foreach ($gameFee as $game => $fee) {
 
                                 //$checked =  in_array($_POST["member$i"], $_POST["$game"]) ? 'checked' : ''; 
                             ?>
