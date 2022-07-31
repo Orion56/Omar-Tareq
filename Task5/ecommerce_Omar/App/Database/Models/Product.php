@@ -2,14 +2,13 @@
 
 namespace App\Database\Models;
 
-use App\Database\Config\Model;
 use App\Database\Models\Contracts\Crud;
 
 class Product extends Model implements Crud
 {
-    private $id, $name_en, $name_ar, $status, $details_en, $details_ar, $price, $quantity, $created_at, $updated_at, $code, $image, $subcategory_id, $brand_id;
-    const TABLE = 'products';
-
+    private $id, $name_en, $name_ar, $details_en, $details_ar, $price, $quantity,
+        $image, $code, $brand_id, $subcategory_id, $status, $created_at, $updated_at;
+    const TABLE = "products_full_details";
 
     /**
      * Get the value of id
@@ -72,26 +71,6 @@ class Product extends Model implements Crud
     }
 
     /**
-     * Get the value of status
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
-     * Set the value of status
-     *
-     * @return  self
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    /**
      * Get the value of details_en
      */
     public function getDetails_en()
@@ -107,66 +86,6 @@ class Product extends Model implements Crud
     public function setDetails_en($details_en)
     {
         $this->details_en = $details_en;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of quantity
-     */
-    public function getQuantity()
-    {
-        return $this->quantity;
-    }
-
-    /**
-     * Set the value of quantity
-     *
-     * @return  self
-     */
-    public function setQuantity($quantity)
-    {
-        $this->quantity = $quantity;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of brand_id
-     */
-    public function getBrand_id()
-    {
-        return $this->brand_id;
-    }
-
-    /**
-     * Set the value of brand_id
-     *
-     * @return  self
-     */
-    public function setBrand_id($brand_id)
-    {
-        $this->brand_id = $brand_id;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of created_at
-     */
-    public function getCreated_at()
-    {
-        return $this->created_at;
-    }
-
-    /**
-     * Set the value of created_at
-     *
-     * @return  self
-     */
-    public function setCreated_at($created_at)
-    {
-        $this->created_at = $created_at;
 
         return $this;
     }
@@ -212,41 +131,21 @@ class Product extends Model implements Crud
     }
 
     /**
-     * Get the value of updated_at
+     * Get the value of quantity
      */
-    public function getUpdated_at()
+    public function getQuantity()
     {
-        return $this->updated_at;
+        return $this->quantity;
     }
 
     /**
-     * Set the value of updated_at
+     * Set the value of quantity
      *
      * @return  self
      */
-    public function setUpdated_at($updated_at)
+    public function setQuantity($quantity)
     {
-        $this->updated_at = $updated_at;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of subcategory_id
-     */
-    public function getSubcategory_id()
-    {
-        return $this->subcategory_id;
-    }
-
-    /**
-     * Set the value of subcategory_id
-     *
-     * @return  self
-     */
-    public function setSubcategory_id($subcategory_id)
-    {
-        $this->subcategory_id = $subcategory_id;
+        $this->quantity = $quantity;
 
         return $this;
     }
@@ -290,16 +189,182 @@ class Product extends Model implements Crud
 
         return $this;
     }
+
+    /**
+     * Get the value of brand_id
+     */
+    public function getBrand_id()
+    {
+        return $this->brand_id;
+    }
+
+    /**
+     * Set the value of brand_id
+     *
+     * @return  self
+     */
+    public function setBrand_id($brand_id)
+    {
+        $this->brand_id = $brand_id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of subcategory_id
+     */
+    public function getSubcategory_id()
+    {
+        return $this->subcategory_id;
+    }
+
+    /**
+     * Set the value of subcategory_id
+     *
+     * @return  self
+     */
+    public function setSubcategory_id($subcategory_id)
+    {
+        $this->subcategory_id = $subcategory_id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of status
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set the value of status
+     *
+     * @return  self
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of created_at
+     */
+    public function getCreated_at()
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * Set the value of created_at
+     *
+     * @return  self
+     */
+    public function setCreated_at($created_at)
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of updated_at
+     */
+    public function getUpdated_at()
+    {
+        return $this->updated_at;
+    }
+
+    /**
+     * Set the value of updated_at
+     *
+     * @return  self
+     */
+    public function setUpdated_at($updated_at)
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
     public function create()
     {
-    }
-    public function read()
-    {
+        # code...
     }
     public function update()
     {
+        # code...
     }
+
+    public function read()
+    {
+        # code...
+    }
+
     public function delete()
     {
+        # code...
+    }
+
+    public function specs()
+    {
+        $query = "SELECT `specs`.`name` , `product_spec`.`value` , `product_spec`.`product_id`
+                    FROM `specs`
+                JOIN `product_spec`
+                ON `specs`.`id` = `product_spec`.`spec_id`
+                WHERE `product_spec`.`product_id` = ?";
+        $stmt = $this->con->prepare($query);
+        if (!$stmt) {
+            return false;
+        }
+        $stmt->bind_param('i', $this->id);
+        $stmt->execute();
+        return $stmt->get_result();
+    }
+
+    public function reviews()
+    {
+        $query = "SELECT
+                    `reviews`.`rate`,
+                    `reviews`.`comment`,
+                    `reviews`.`created_at`,
+                    CONCAT(
+                        `users`.`first_name`,
+                        ' ',
+                        `users`.`last_name`
+                    ) AS `full_name`
+                FROM
+                    `reviews`
+                LEFT JOIN `users`
+                ON `users`.`id` = `reviews`.`user_id`
+                WHERE `reviews`.`product_id` = ?";
+        $stmt = $this->con->prepare($query);
+        if (!$stmt) {
+            return false;
+        }
+        $stmt->bind_param('i', $this->id);
+        $stmt->execute();
+        return $stmt->get_result();
+    }
+
+    //order asc||desc all products
+    public function orderProducts(array $columns = ['*'], string $direction, int $limit = null)
+    {
+        $select = implode(', ', $columns);
+        $query = "SELECT {$select}
+FROM " . static::TABLE . " ORDER BY " . $columns . $direction;
+        $stmt = $this->con->prepare($query);
+        if ($limit != null) {
+            $query .= " limit " . $limit;
+        }
+        if (!$stmt) {
+            return false;
+        }
+        $stmt->bind_param('i', $this->id);
+        $stmt->execute();
+        return $stmt->get_result();
     }
 }

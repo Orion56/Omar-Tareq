@@ -2,6 +2,8 @@
 
 namespace App\HTTP\Requests;
 
+use App\Database\Models\Model;
+
 class Validation
 {
     private $value;
@@ -33,7 +35,7 @@ class Validation
     public function compare($comparedValue): self
     {
         if ($this->value != $comparedValue) {
-            $this->errors[$this->valueName][__FUNCTION__] = "{$comparedValue} Does not match {$this->valueName} ";
+            $this->errors[$this->valueName][__FUNCTION__] = "{$this->valueName}s Does not match";
         }
         return $this;
     }
@@ -62,13 +64,32 @@ class Validation
         return $this;
     }
 
-    public function unique()
+    public function unique(string $table, string $column)
     {
+        $model = new Model;
+        $stmt = $model->con->prepare("SELECT * FROM {$table} WHERE {$column} = ?");
+        $stmt->bind_param('s', $this->value);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows == 1) {
+            $this->errors[$this->valueName][__FUNCTION__] = "{$this->valueName} Already Exists";
+        }
+        return $this;
     }
 
-    public function exists()
+    public function exists(string $table, string $column)
     {
+        $model = new Model;
+        $stmt = $model->con->prepare("SELECT * FROM {$table} WHERE {$column} = ?");
+        $stmt->bind_param('s', $this->value);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows == 0) {
+            $this->errors[$this->valueName][__FUNCTION__] = "{$this->valueName} Dosen't Exists";
+        }
+        return $this;
     }
+
 
     /**
      * Set the value of value
@@ -116,6 +137,6 @@ class Validation
     //html styled error msg
     public function getMessage(string $error): string
     {
-        return  "<p class='text-danger font-weight-bold'>" . $this->getError($error) . "</p>";
+        return  "<p class='text-danger font-weight-bold'>" . ucwords($this->getError($error)) . "</p>";
     }
 }

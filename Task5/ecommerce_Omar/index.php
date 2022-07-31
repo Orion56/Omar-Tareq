@@ -1,6 +1,13 @@
 <?php
+$title = 'Home';
 include "layouts/head.php";
 include "layouts/navbar.php";
+
+use App\Database\Models\Brand;
+
+$brandObject = new Brand;
+$brands = $brandObject->all(['id', 'name_en', 'image'])->fetch_all(MYSQLI_ASSOC);
+
 ?>
 <!-- Slider Start -->
 <div class="slider-area">
@@ -29,180 +36,17 @@ include "layouts/navbar.php";
 <!-- Product Area Start -->
 <div class="product-area bg-image-1 pt-100 pb-95">
     <div class="container">
-        <div class="featured-product-active hot-flower owl-carousel product-nav">
-            <div class="product-wrapper">
-                <div class="product-img">
-                    <a href="product-details.php">
-                        <img alt="" src="assets/img/product/product-1.jpg">
-                    </a>
-                    <span>-20%</span>
-                    <div class="product-action">
-                        <a class="action-wishlist" href="#" title="Wishlist">
-                            <i class="ion-android-favorite-outline"></i>
-                        </a>
-                        <a class="action-cart" href="#" title="Add To Cart">
-                            <i class="ion-ios-shuffle-strong"></i>
-                        </a>
-                        <a class="action-compare" href="#" data-target="#exampleModal" data-toggle="modal" title="Quick View">
-                            <i class="ion-ios-search-strong"></i>
+        <div class="row">
+            <?php foreach ($brands as $brand) { ?>
+                <div class="col-3">
+                    <div class="product-img">
+                        <a href="shop.php?brand=<?= $brand['id'] ?>">
+                            <img alt="" src="assets/img/brand-logo/<?= $brand['image'] ?>">
                         </a>
                     </div>
                 </div>
-                <div class="product-content text-left">
-                    <div class="product-hover-style">
-                        <div class="product-title">
-                            <h4>
-                                <a href="product-details.php">Nature Close Tea</a>
-                            </h4>
-                        </div>
-                        <div class="cart-hover">
-                            <h4><a href="product-details.php">+ Add to cart</a></h4>
-                        </div>
-                    </div>
-                    <div class="product-price-wrapper">
-                        <span>$100.00 -</span>
-                        <span class="product-price-old">$120.00 </span>
-                    </div>
-                </div>
-            </div>
-            <div class="product-wrapper">
-                <div class="product-img">
-                    <a href="product-details.php">
-                        <img alt="" src="assets/img/product/product-2.jpg">
-                    </a>
-                    <div class="product-action">
-                        <a class="action-wishlist" href="#" title="Wishlist">
-                            <i class="ion-android-favorite-outline"></i>
-                        </a>
-                        <a class="action-cart" href="#" title="Add To Cart">
-                            <i class="ion-ios-shuffle-strong"></i>
-                        </a>
-                        <a class="action-compare" href="#" data-target="#exampleModal" data-toggle="modal" title="Quick View">
-                            <i class="ion-ios-search-strong"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="product-content text-left">
-                    <div class="product-hover-style">
-                        <div class="product-title">
-                            <h4>
-                                <a href="product-details.php">Pink wave Cup</a>
-                            </h4>
-                        </div>
-                        <div class="cart-hover">
-                            <h4><a href="product-details.php">+ Add to cart</a></h4>
-                        </div>
-                    </div>
-                    <div class="product-price-wrapper">
-                        <span>$100.00 -</span>
-                        <span class="product-price-old">$120.00 </span>
-                    </div>
-                </div>
-            </div>
-            <div class="product-wrapper">
-                <div class="product-img">
-                    <a href="product-details.php">
-                        <img alt="" src="assets/img/product/product-3.jpg">
-                    </a>
-                    <span>-50%</span>
-                    <div class="product-action">
-                        <a class="action-wishlist" href="#" title="Wishlist">
-                            <i class="ion-android-favorite-outline"></i>
-                        </a>
-                        <a class="action-cart" href="#" title="Add To Cart">
-                            <i class="ion-ios-shuffle-strong"></i>
-                        </a>
-                        <a class="action-compare" href="#" data-target="#exampleModal" data-toggle="modal" title="Quick View">
-                            <i class="ion-ios-search-strong"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="product-content text-left">
-                    <div class="product-hover-style">
-                        <div class="product-title">
-                            <h4>
-                                <a href="product-details.php">Tea and Chai</a>
-                            </h4>
-                        </div>
-                        <div class="cart-hover">
-                            <h4><a href="product-details.php">+ Add to cart</a></h4>
-                        </div>
-                    </div>
-                    <div class="product-price-wrapper">
-                        <span>$100.00 -</span>
-                        <span class="product-price-old">$120.00 </span>
-                    </div>
-                </div>
-            </div>
-            <div class="product-wrapper">
-                <div class="product-img">
-                    <a href="product-details.php">
-                        <img alt="" src="assets/img/product/product-4.jpg">
-                    </a>
-                    <div class="product-action">
-                        <a class="action-wishlist" href="#" title="Wishlist">
-                            <i class="ion-android-favorite-outline"></i>
-                        </a>
-                        <a class="action-cart" href="#" title="Add To Cart">
-                            <i class="ion-ios-shuffle-strong"></i>
-                        </a>
-                        <a class="action-compare" href="#" data-target="#exampleModal" data-toggle="modal" title="Quick View">
-                            <i class="ion-ios-search-strong"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="product-content text-left">
-                    <div class="product-hover-style">
-                        <div class="product-title">
-                            <h4>
-                                <a href="product-details.php">Pearly Everlasting</a>
-                            </h4>
-                        </div>
-                        <div class="cart-hover">
-                            <h4><a href="product-details.php">+ Add to cart</a></h4>
-                        </div>
-                    </div>
-                    <div class="product-price-wrapper">
-                        <span>$100.00 -</span>
-                        <span class="product-price-old">$120.00 </span>
-                    </div>
-                </div>
-            </div>
-            <div class="product-wrapper">
-                <div class="product-img">
-                    <a href="product-details.php">
-                        <img alt="" src="assets/img/product/product-5.jpg">
-                    </a>
-                    <span>-30%</span>
-                    <div class="product-action">
-                        <a class="action-wishlist" href="#" title="Wishlist">
-                            <i class="ion-android-favorite-outline"></i>
-                        </a>
-                        <a class="action-cart" href="#" title="Add To Cart">
-                            <i class="ion-ios-shuffle-strong"></i>
-                        </a>
-                        <a class="action-compare" href="#" data-target="#exampleModal" data-toggle="modal" title="Quick View">
-                            <i class="ion-ios-search-strong"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="product-content text-left">
-                    <div class="product-hover-style">
-                        <div class="product-title">
-                            <h4>
-                                <a href="product-details.php">Que herbal Tea</a>
-                            </h4>
-                        </div>
-                        <div class="cart-hover">
-                            <h4><a href="product-details.php">+ Add to cart</a></h4>
-                        </div>
-                    </div>
-                    <div class="product-price-wrapper">
-                        <span>$100.00 -</span>
-                        <span class="product-price-old">$120.00 </span>
-                    </div>
-                </div>
-            </div>
+            <?php } ?>
+
         </div>
     </div>
 </div>

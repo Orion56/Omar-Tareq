@@ -2,9 +2,11 @@
 
 use App\Database\Models\User;
 use App\HTTP\Requests\Validation;
+use App\Mails\VerificationCodeMail;
 
 $title = 'Sign Up';
 include "layouts/head.php";
+include "App/HTTP/Middlewares/guest.php";
 include "layouts/navbar.php";
 include "layouts/breadCrumb.php";
 
@@ -15,8 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" &&  $_POST) {
     $validate->setValueName('last name')->setValue($_POST['last_name'])->required()->string()->max(32);
     $validate->setValueName('email')->setValue($_POST['email'])->required()->regex("/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/");
     $validate->setValueName('phone')->setValue($_POST['phone'])->required()->regex("/^01[0125][0-9]{8}$/");
-    $validate->setValueName('password')->setValue($_POST['password'])->required()->regex("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/", "Minimum eight and maximum 32 characters, at least one uppercase letter, one lowercase letter, one number and one special character.")->compare($_POST['password_confirmation']);
-    $validate->setValueName('password confirmation')->setValue($_POST['password_confirmation'])->required();
+    $validate->setValueName('password')->setValue($_POST['password'])->required()->regex("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/", "Minimum eight and maximum 32 characters, at least one uppercase letter, one lowercase letter, one number and one special character.");
+    $validate->setValueName('password confirmation')->setValue($_POST['password_confirmation'])->required()->compare($_POST['password']);
     $validate->setValueName('gender')->setValue($_POST['gender'])->required()->in(['m', 'f']);
     if (empty($validate->getErrors())) {
 
@@ -25,11 +27,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" &&  $_POST) {
         $user->setFirst_name($_POST['first_name'])->setLast_name($_POST['last_name'])
             ->setPassword($_POST['password'])->setPhone($_POST['phone'])->setGender($_POST['gender'])
             ->setEmail($_POST['email'])->setVerification_code($verification_code);
-
         if ($user->create()) {
-            $_SESSION['verification_email'] = $_POST['email'];
-            header('location:verification-code.php');
-            die;
+            $subject = "Verification Code";
+            $body = "<p> Dear {$_POST['first_name']} {$_POST['last_name']}</p>
+            <p>Your Verification Code: <b style='color:blue'>{$verification_code}</b></p>
+            <p>Thank You</p>";
+            $verificationCodeMail = new VerificationCodeMail($_POST['email'], $subject, $body);
+            if ($verificationCodeMail->send()) {
+                $_SESSION['verification_email'] = $_POST['email'];
+                header('location:verification-code.php?page=signup');
+                die;
+            }
         } else {
             $error = "<div class='alert alert-danger text-center'> Something Went Wrong </div>";
         }
@@ -52,6 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" &&  $_POST) {
                         <div id="lg2" class="tab-pane active">
                             <div class="login-form-container">
                                 <div class="login-register-form">
+                                    <?= $error ?? "" ?>
                                     <form method="post">
                                         <input type="text" value="<?= $_POST['first_name'] ?? "" ?>" name="first_name" placeholder="First Name">
                                         <?= $validate->getMessage('first name') ?>

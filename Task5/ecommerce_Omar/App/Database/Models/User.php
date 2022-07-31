@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Database\Models;
-use App\Database\Config\Model;
+
+use App\Database\Models\Model;
 use App\Database\Models\Contracts\Crud;
 
 class User extends Model implements Crud
 {
-    private $id, $first_name, $last_name, $phone, $email, $password, $gender, $verification_code,
+    private $id, $first_name, $last_name, $phone, $email, $password, $gender, $verification_code, $image,
         $status, $email_verified_at, $created_at, $updated_at;
     const TABLE = "users";
 
@@ -123,8 +124,7 @@ class User extends Model implements Crud
      */
     public function setPassword($password)
     {
-        $this->password = $password;
-
+        $this->password = password_hash($password, PASSWORD_BCRYPT);
         return $this;
     }
 
@@ -168,6 +168,25 @@ class User extends Model implements Crud
         return $this;
     }
 
+    /**
+     * Get the value of image
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Set the value of image
+     *
+     * @return  self
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
     /**
      * Get the value of status
      */
@@ -247,16 +266,110 @@ class User extends Model implements Crud
 
         return $this;
     }
-    public function create()
+    public function create(): bool
     {
+        $query = "INSERT INTO " . self::TABLE . " (first_name,last_name,phone,email,password,gender,verification_code) 
+       VALUES ( ? , ? , ? , ? , ? , ? , ?)";
+        $stmt = $this->con->prepare($query);
+        if (!$stmt) {
+            return false;
+        }
+        $bind = $stmt->bind_param(
+            "ssssssi",
+            $this->first_name,
+            $this->last_name,
+            $this->phone,
+            $this->email,
+            $this->password,
+            $this->gender,
+            $this->verification_code
+        );
+        return $stmt->execute();
     }
     public function read()
     {
     }
-    public function update()
+    public function update(): bool
     {
+        $query = "UPDATE " . self::TABLE . " SET first_name = ? , last_name = ? , gender = ? WHERE email = ?";
+        $stmt = $this->con->prepare($query);
+        if (!$stmt) {
+            return false;
+        }
+        $stmt->bind_param('ssss', $this->first_name, $this->last_name, $this->gender, $this->email);
+        return $stmt->execute();
     }
     public function delete()
     {
+    }
+
+    public function checkVerificationCode()
+    {
+        $query = "SELECT * FROM " . self::TABLE . " WHERE email = ? AND verification_code = ?";
+        $stmt = $this->con->prepare($query);
+        if (!$stmt) {
+            return false;
+        }
+        $stmt->bind_param('si', $this->email, $this->verification_code);
+        $stmt->execute();
+        return $stmt->get_result();
+    }
+
+    public function getUserByEmail()
+    {
+        $query = "SELECT * FROM " . self::TABLE . " WHERE email = ? ";
+        $stmt = $this->con->prepare($query);
+        if (!$stmt) {
+            return false;
+        }
+        $stmt->bind_param('s', $this->email);
+        $stmt->execute();
+        return $stmt->get_result();
+    }
+
+
+
+    public function emailVerification(): bool
+    {
+        $query = "UPDATE " . self::TABLE . " SET `email_verified_at` = ? WHERE email = ?";
+        $stmt = $this->con->prepare($query);
+        if (!$stmt) {
+            return false;
+        }
+        $stmt->bind_param('ss', $this->email_verified_at, $this->email);
+        return $stmt->execute();
+    }
+
+    public function updateVerificationCode(): bool
+    {
+        $query = "UPDATE" . " " . self::TABLE . " " . "SET `verification_code` = ? WHERE email = ?";
+        $stmt = $this->con->prepare($query);
+        if (!$stmt) {
+            return false;
+        }
+        $stmt->bind_param('is', $this->verification_code, $this->email);
+        return $stmt->execute();
+    }
+
+    public function changePassword(): bool
+    {
+        $query = "UPDATE " . self::TABLE . " SET `password` = ? WHERE email = ?";
+        $stmt = $this->con->prepare($query);
+        if (!$stmt) {
+            return false;
+        }
+        $stmt->bind_param('ss', $this->password, $this->email);
+        return $stmt->execute();
+    }
+
+    public function updateProfilePic(): bool
+    {
+        $query = "UPDATE " . self::TABLE . " SET `image` = ? WHERE email = ?";
+        $stmt = $this->con->prepare($query);
+        if (!$stmt) {
+            return false;
+        }
+        $stmt->bind_param('ss', $this->image, $this->email);
+        return $stmt->execute();
     }
 }

@@ -5,11 +5,11 @@ namespace App\Database\Config;
 class Connection
 {
     private string $db_hostname = 'localhost';
-    private int $db_port = 3306; //optional ->has default
+    private int $db_port = 3306; //optional ->has default port
     private string $db_username = 'root';
     private string $db_password = '';
     private string $db_name = 'ecommerce_omar';
-    protected \mysqli $con;
+    public \mysqli $con;
 
     public function __construct()
     {
@@ -17,7 +17,7 @@ class Connection
         if ($this->con->connect_error) {
             die("Error No:" . $this->con->connect_errno . "<br>Connection failed: " . $this->con->connect_error);
         }
-        echo "Connected..";
+        //echo "Connected..";
     }
     public function __destruct()
     {

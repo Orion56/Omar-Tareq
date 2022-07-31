@@ -1,4 +1,16 @@
-<?php include "vendor/autoload.php"; ?>
+<?php include "vendor/autoload.php";
+
+use App\Database\Models\User;
+
+ob_start();
+session_start();
+
+if (isset($_COOKIE['user'])) {
+    $user = new User;
+    $result = $user->setEmail($_COOKIE['user'])->getUserByEmail();
+    $_SESSION['user'] = $result->fetch_object(); // to automatically sign in rememberMe user
+}
+?>
 
 <!doctype html>
 <html class="no-js" lang="zxx">
