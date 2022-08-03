@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 @endsection
 @section('content')
-
+@include('components.message')
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <table id="dataTable" class="table">
+                <table id="dataTable" class="table text-center">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -39,7 +39,8 @@
                                 <td>{{ $product->created_at }}</td>
                                 <td>{{ $product->updated_at }}</td>
                                 <td>
-                                    <a href="{{route('dash.products.edit',$product->id)}}" class="btn btn-outline-warning btn-sm"> Edit </a>
+                                    <a href="{{ route('dash.products.edit', $product->id) }}"
+                                        class="btn btn-outline-warning btn-sm"> Edit </a>
                                     <a href="#" class="btn btn-outline-danger btn-sm"> Delete </a>
                                 </td>
                             </tr>

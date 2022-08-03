@@ -4,8 +4,20 @@
 @section('content')
     @include('components.message')
     <div class="col-12">
-        <form action="{{ route('dash.products.store') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('dash.products.store')}}" method="post" enctype="multipart/form-data">
             @csrf
+            <div class="form-row justify-content-center">
+                <div class="col-3">
+                    <label for="file">
+                        <img class="w-100" style="cursor:pointer" src="{{ asset('images/upload.jpg') }}" alt="Upload"
+                            id="image">
+                    </label>
+                    <input type="file" name="image" id="file" class="d-none" onchange="loadFile(event)">
+                    @error('image')
+                        <div class="text-danger font-weight-bold">* {{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
             <div class="form-row">
                 <div class="col-6">
                     <label for="name_en">Name (EN)</label>
@@ -95,21 +107,10 @@
                     @enderror
                 </div>
             </div>
-            <div class="form-row">
-                <div class="col-3">
-                    <label for="file">
-                        <img class="w-100" style="cursor:pointer" src="{{ asset('images/upload.jpg') }}" alt="Upload"
-                            id="image">
-                    </label>
-                    <input type="file" name="image" id="file" class="d-none" onchange="loadFile(event)">
-                    @error('image')
-                        <div class="text-danger font-weight-bold">* {{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="col-2">
-                    <button class="btn btn-primary btn-sm"> Create </button>
+
+            <div class="form-row justify-content-center">
+                <div class="col-3 my-3 ">
+                    <button class="btn btn-primary btn-sm w-100"> Create </button>
                 </div>
             </div>
         </form>

@@ -19,8 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('dashboard', [DashboardController::class, 'index'])->name('dash');
 Route::get('dashboard/products', [ProductController::class, 'index'])->name('dash.products');
 Route::get('dashboard/products/create', [ProductController::class, 'create'])->name('dash.products.create');
-Route::get('dashboard/products/edit/{$id}', [ProductController::class, 'eidt'])->name('dash.products.edit');
+Route::get('dashboard/products/edit/{id}', [ProductController::class, 'edit'])->name('dash.products.edit');
 Route::post('dashboard/products/store', [ProductController::class, 'store'])->name('dash.products.store');
