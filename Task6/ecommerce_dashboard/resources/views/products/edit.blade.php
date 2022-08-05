@@ -4,7 +4,9 @@
 
 @section('content')
     <div class="col-12">
-        <form action="{{ route('dash.products.update'),,$product->id  }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('dash.products.update'), $product->id }}" method="post" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
             <div class="form-row justify-content-center">
                 <div class="col-3">
                     <label for="file">
@@ -12,6 +14,9 @@
                             alt="Upload" id="image">
                     </label>
                     <input type="file" name="image" id="file" class="d-none" onchange="loadFile(event)">
+                    @error('image')
+                        <p class="text-danger font-weight-bold">* {{ $message }}</p>
+                    @enderror
                 </div>
             </div>
             <div class="form-row">
@@ -19,26 +24,41 @@
                     <label for="name_en">Name (EN)</label>
                     <input type="text" name="name_en" id="name_en" class="form-control"
                         value="{{ $product->name_en }}">
+                    @error('name_en')
+                        <p class="text-danger font-weight-bold">* {{ $message }}</p>
+                    @enderror
                 </div>
                 <div class="col-6">
                     <label for="name_ar">Name (AR)</label>
                     <input type="text" name="name_ar" id="name_ar" class="form-control"
                         value="{{ $product->name_ar }}">
+                    @error('name_ar')
+                        <p class="text-danger font-weight-bold">* {{ $message }}</p>
+                    @enderror
                 </div>
             </div>
             <div class="form-row">
                 <div class="col-4">
                     <label for="price">Price</label>
                     <input type="number" name="price" id="price" class="form-control" value="{{ $product->price }}">
+                    @error('price')
+                        <p class="text-danger font-weight-bold">* {{ $message }}</p>
+                    @enderror
                 </div>
                 <div class="col-4">
                     <label for="quantity">Quantity</label>
                     <input type="number" name="quantity" id="quantity" class="form-control"
                         value="{{ $product->quantity }}">
+                    @error('quantity')
+                        <p class="text-danger font-weight-bold">* {{ $message }}</p>
+                    @enderror
                 </div>
                 <div class="col-4">
                     <label for="code">Code</label>
                     <input type="number" name="code" id="code" class="form-control" value="{{ $product->code }}">
+                    @error('code')
+                        <p class="text-danger font-weight-bold">* {{ $message }}</p>
+                    @enderror
                 </div>
             </div>
             <div class="form-row">
@@ -48,33 +68,50 @@
                         <option @selected($product->status == 1) value="1">Active</option>
                         <option @selected($product->status == 0) value="0">Not Active</option>
                     </select>
+                    @error('status')
+                        <p class="text-danger font-weight-bold">* {{ $message }}</p>
+                    @enderror
                 </div>
                 <div class="col-4">
                     <label for="brand_id">Brand</label>
                     <select name="brand_id" id="brand_id" class="form-control">
                         @foreach ($brands as $brand)
-                            <option @selected($product->brand_id == $brand->id) value="{{ $brand->id }}">{{ $brand->name_en }}</option>
+                            <option @selected($product->brand_id == $brand->id) value="{{ $brand->id }}">{{ $brand->name_en }}
+                            </option>
                         @endforeach
+                        @error('brand')
+                            <p class="text-danger font-weight-bold">* {{ $message }}</p>
+                        @enderror
                     </select>
                 </div>
                 <div class="col-4">
                     <label for="subcategory_id">Subcategory</label>
                     <select name="subcategory_id" id="subcategory_id" class="form-control">
                         @foreach ($subcategories as $subcategory)
-                            <option @selected($product->subcategory_id == $subcategory->id) value="{{ $subcategory->id }}">{{ $subcategory->name_en }}
+                            <option @selected($product->subcategory_id == $subcategory->id) value="{{ $subcategory->id }}">
+                                {{ $subcategory->name_en }}
                             </option>
                         @endforeach
                     </select>
+                    @error('subcategory')
+                        <p class="text-danger font-weight-bold">* {{ $message }}</p>
+                    @enderror
                 </div>
             </div>
             <div class="form-row">
                 <div class="col-6">
                     <label for="details_en">Details (EN)</label>
                     <textarea name="details_en" id="details_en" cols="30" rows="10" class="form-control">{{ $product->details_en }}</textarea>
+                    @error('details_en')
+                        <p class="text-danger font-weight-bold">* {{ $message }}</p>
+                    @enderror
                 </div>
                 <div class="col-6">
                     <label for="details_ar">Details (AR)</label>
                     <textarea name="details_ar" id="details_ar" cols="30" rows="10" class="form-control">{{ $product->details_ar }}</textarea>
+                    @error('details_ar')
+                        <p class="text-danger font-weight-bold">* {{ $message }}</p>
+                    @enderror
                 </div>
             </div>
             <div class="form-row justify-content-center">

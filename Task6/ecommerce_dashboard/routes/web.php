@@ -24,3 +24,4 @@ Route::get('dashboard/products', [ProductController::class, 'index'])->name('das
 Route::get('dashboard/products/create', [ProductController::class, 'create'])->name('dash.products.create');
 Route::get('dashboard/products/edit/{id}', [ProductController::class, 'edit'])->name('dash.products.edit');
 Route::post('dashboard/products/store', [ProductController::class, 'store'])->name('dash.products.store');
+Route::put('dashboard/products/update/{product}', [ProductController::class, 'update'])->name('dash.products.update');
